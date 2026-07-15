@@ -65,9 +65,15 @@ def call(Map opts = [:]) {
                     script {
                         // Tests run in a throwaway container so the controller
                         // needs no language runtimes installed.
+                        // Docker-outside-of-Docker: `docker run -v <path>` resolves the path
+                        // on the HOST daemon, not inside this container — so a plain
+                        // -v "$(pwd)" would mount an empty directory. `--volumes-from
+                        // $(hostname)` inherits the controller's own volumes at identical
+                        // paths, so the workspace is visible at the same location.
                         cfg.testCommands.each { String cmd ->
                             sh label: "test: ${cmd}", script: """
-                                docker run --rm -v "\$(pwd)":/w -w /w python:3.12-slim \
+                                docker run --rm --volumes-from \$(hostname) -w "\$(pwd)" \
+                                  python:3.12-slim \
                                   sh -c 'pip install -q -r requirements.txt pytest && ${cmd}'
                             """
                         }
