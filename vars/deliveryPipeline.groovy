@@ -163,8 +163,9 @@ def call(Map opts = [:]) {
                                 if (!ok) {
                                     error("Deployment to ${envSpec.name} failed and was rolled back")
                                 }
-                                if (!d.smokeTest()) {
-                                    d.rollback()
+                                Map ctx = [image: env.IMAGE, commit: env.GIT_SHA, buildNumber: env.BUILD_NUMBER]
+                                if (!d.smokeTest(ctx)) {
+                                    d.rollback(ctx)
                                     error("Smoke test failed in ${envSpec.name} — rolled back")
                                 }
                                 echo "${envSpec.name} verified: ${env.IMAGE}"
