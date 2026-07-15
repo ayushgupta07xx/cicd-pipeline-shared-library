@@ -37,8 +37,21 @@ def call(Map opts = [:]) {
                         checkout scm
                         env.GIT_SHA   = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
                         env.SHORT_SHA = env.GIT_SHA.take(7)
-                        env.BRANCH    = env.BRANCH_NAME ?: sh(
-                            returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                        // Jenkins checks out a detached HEAD, so `rev-parse --abbrev-ref HEAD`
+                        // returns the literal "HEAD". Resolve the real branch from the remote
+                        // ref that points at this commit; fall back to GIT_BRANCH (set by the
+                        // git plugin, e.g. "origin/main") and finally to BRANCH_NAME (multibranch).
+                        String resolved = sh(returnStdout: true, script: """
+                            git for-each-ref --format='%(refname:short)' --points-at HEAD refs/remotes/origin \
+                              | head -1 | sed 's|^origin/||'
+                        """).trim()
+                        if (!resolved) {
+                            resolved = (env.GIT_BRANCH ?: '').replaceFirst(/^origin\//, '')
+                        }
+                        if (!resolved || resolved == 'HEAD') {
+                            resolved = env.BRANCH_NAME ?: 'unknown'
+                        }
+                        env.BRANCH = resolved
                         echo "commit=${env.SHORT_SHA} branch=${env.BRANCH} build=#${env.BUILD_NUMBER}"
                     }
                 }
