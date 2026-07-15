@@ -45,6 +45,10 @@ class DeployConfig implements Serializable {
             if (!raw?.app?."${k}") { errors << "app.${k} is required" }
         }
         if (!raw?.registry?.host) { errors << "registry.host is required" }
+        if (raw?.test?.commands && !raw?.test?.image) {
+            errors << "test.image is required when test.commands is set — " +
+                      "the pipeline does not assume a language runtime"
+        }
         if (!raw?.manifests?.path) { errors << "manifests.path is required" }
         if (!(raw?.manifests?.files instanceof List) || raw.manifests.files.isEmpty()) {
             errors << "manifests.files must be a non-empty list"
@@ -82,6 +86,11 @@ class DeployConfig implements Serializable {
     String getBuildContext()    { raw.build?.context ?: '.' }
     String getDockerfile()      { raw.build?.dockerfile ?: 'Dockerfile' }
     List<String> getTestCommands() { (raw.test?.commands ?: []) as List<String> }
+    /** Container image the test commands execute in — declared per repository,
+     *  because the library makes no assumption about language or toolchain. */
+    String getTestImage() { raw.test?.image ?: 'alpine:3.21' }
+    /** Optional dependency-installation command run before each test command. */
+    String getTestSetup() { raw.test?.setup ?: '' }
     String getManifestPath()    { raw.manifests.path }
     List<String> getManifestFiles() { raw.manifests.files as List<String> }
 

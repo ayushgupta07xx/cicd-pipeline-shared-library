@@ -83,11 +83,15 @@ def call(Map opts = [:]) {
                         // -v "$(pwd)" would mount an empty directory. `--volumes-from
                         // $(hostname)` inherits the controller's own volumes at identical
                         // paths, so the workspace is visible at the same location.
+                        // The test image is declared by the repository — the library
+                        // holds no assumption about language or toolchain.
+                        String img = cfg.testImage
+                        String setup = cfg.testSetup
                         cfg.testCommands.each { String cmd ->
+                            String full = setup ? "${setup} && ${cmd}" : cmd
                             sh label: "test: ${cmd}", script: """
                                 docker run --rm --volumes-from \$(hostname) -w "\$(pwd)" \
-                                  python:3.12-slim \
-                                  sh -c 'pip install -q -r requirements.txt pytest && ${cmd}'
+                                  '${img}' sh -c '${full}'
                             """
                         }
                     }
