@@ -61,6 +61,53 @@ This library is the other answer. Every stage — test, build, scan, push, promo
 
 That claim is tested rather than asserted: two deliberately dissimilar services — **Python/Flask** and **Node/Express** — run this library unmodified. Onboarding the second one **found a real defect in the library**, which is documented below alongside the fix.
 
+## How the repositories connect
+
+The assignment asks for a solution *adaptable to different Git repositories and
+Kubernetes clusters*. This is what that looks like as a topology — three loose
+couplings, and nothing else:
+
+```mermaid
+flowchart TB
+    subgraph APPS[" Application repositories — two files each, zero pipeline code "]
+      direction LR
+      SA["<b>sample-app</b><br/>Python · Flask · :8080<br/><br/>Jenkinsfile — 3 lines<br/>deploy-config.yaml"]
+      OA["<b>orders-api</b><br/>Node · Express · :3000<br/><br/>Jenkinsfile — 3 lines<br/>deploy-config.yaml"]
+    end
+
+    LIB["<b>cicd-pipeline-shared-library</b><br/><i>this repository</i><br/><br/>every stage, once:<br/>test · build · scan · push<br/>deploy · verify · roll back"]
+
+    NAME{{"credentialId:<br/><b>kubeconfig-staging</b><br/><br/><i>just a string</i>"}}
+
+    PLAT["<b>cicd-pipeline-platform</b><br/><br/>infra/ → the clusters + registry<br/>terraform/ → namespace · quota · SA · Role<br/>jenkins/ → image · JCasC · kubeconfigs"]
+
+    K8S["kind-staging · kind-prod"]
+
+    SA -->|"@Library('finacplus-cicd@main') _"| LIB
+    OA -->|"@Library('finacplus-cicd@main') _"| LIB
+    LIB -->|"reads deploy-config.yaml,<br/>resolves a name"| NAME
+    PLAT -->|"creates what that<br/>name resolves to"| NAME
+    NAME --> K8S
+```
+
+**Three couplings, all of them names rather than code:**
+
+| Coupling | What it is |
+|---|---|
+| `@Library('finacplus-cicd@main')` | An app repo references this library. Jenkins fetches it from Git at build time — registered once in `casc.yaml` under `globalLibraries`. |
+| `deploy-config.yaml` | An app repo declares what it is and which clusters it targets. The library reads it; the app repo contains no pipeline logic. |
+| `credentialId: kubeconfig-staging` | **A string.** The app repo doesn't know what cluster that is, where it runs, or who made it. The platform repo made it — a namespaced ServiceAccount, its Role, and the kubeconfig that authenticates as it. |
+
+**What nobody knows about anybody:**
+
+- The **library** doesn't know either language exists — the test runtime is declared per repo.
+- The **app repos** don't know each other, or what infrastructure sits behind a credential ID.
+- The **platform** doesn't know which applications use the clusters it provisions.
+
+Adding a repository → it references the library. Adding a cluster → the platform
+creates it, a config names it. **Nothing else changes** — which is what makes
+"adaptable" a property of the design rather than a claim in a README.
+
 ## The contract
 
 Everything a repository writes:
