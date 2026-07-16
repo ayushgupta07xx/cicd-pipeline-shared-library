@@ -24,7 +24,7 @@
 
 <br/>
 
-<video src="https://github.com/user-attachments/assets/19ee1809-603c-4cec-8eeb-75dbec476988" width="820" controls muted></video>
+<video src="https://github.com/user-attachments/assets/23697115-85e6-41ca-96bd-2b451eb72274" width="820" controls muted></video>
 
 <sub><b>60 seconds:</b> a broken deploy stalls at <code>0/1</code> Ready while the previous pods keep serving — then the pipeline diagnoses it and rolls back, unattended. Full 9-minute walkthrough below.</sub>
 
