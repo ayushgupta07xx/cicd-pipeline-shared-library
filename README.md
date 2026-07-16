@@ -1,5 +1,10 @@
 # cicd-pipeline-shared-library
 
+**[▶ Watch the walkthrough](https://youtu.be/8HLydMg_BCg)** — 9 minutes. A commit
+triggering a real build, gated promotion to production, and a broken deploy
+detected, diagnosed and rolled back by the pipeline with zero downtime. Recorded
+from live output; nothing is mocked.
+
 A reusable Jenkins delivery pipeline, written in Groovy, that builds a
 containerised service and promotes one immutable image across Kubernetes
 clusters.
