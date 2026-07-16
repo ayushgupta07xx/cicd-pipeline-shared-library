@@ -26,7 +26,7 @@
 
 [![Watch the walkthrough](https://img.shields.io/badge/▶_Watch_the_9_min_walkthrough-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/8HLydMg_BCg)
 
-📘 **[Read the case study](https://ayushgupta07xx.github.io/cicd-pipeline-sample-app/)** · 🐍 **[Sample App](https://github.com/ayushgupta07xx/cicd-pipeline-sample-app)** · 🟩 **[Orders API](https://github.com/ayushgupta07xx/cicd-pipeline-orders-api)** · 🏗 **[Platform](https://github.com/ayushgupta07xx/cicd-pipeline-platform)**
+🐍 **[Sample App](https://github.com/ayushgupta07xx/cicd-pipeline-sample-app)** · 🟩 **[Orders API](https://github.com/ayushgupta07xx/cicd-pipeline-orders-api)** · 🏗 **[Platform](https://github.com/ayushgupta07xx/cicd-pipeline-platform)** · 📄 **[Docs](https://github.com/ayushgupta07xx/cicd-pipeline-platform/tree/main/docs)**
 
 </div>
 
