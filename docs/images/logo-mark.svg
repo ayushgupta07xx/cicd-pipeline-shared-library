@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E8A33D"/>
+      <stop offset="1" stop-color="#F0C069"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="104" fill="#0C0C0E"/>
+  <rect x="6" y="6" width="500" height="500" rx="98" fill="none" stroke="#1E1E26" stroke-width="3"/>
+
+  <!-- commit -->
+  <circle cx="128" cy="256" r="30" fill="none" stroke="url(#amber)" stroke-width="14"/>
+
+  <!-- trunk -->
+  <path d="M158 256 H236" stroke="#4A4A55" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- fork -->
+  <path d="M236 256 C 276 256, 276 168, 316 168" fill="none" stroke="#4A4A55"
+        stroke-width="14" stroke-linecap="round"/>
+  <path d="M236 256 C 276 256, 276 344, 316 344" fill="none" stroke="#4A4A55"
+        stroke-width="14" stroke-linecap="round"/>
+
+  <!-- staging: shipped -->
+  <rect x="322" y="134" width="68" height="68" rx="16" fill="url(#amber)"/>
+  <path d="M340 168 l14 14 l22 -26" fill="none" stroke="#0C0C0E" stroke-width="11"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- prod: gated -->
+  <rect x="322" y="310" width="68" height="68" rx="16" fill="none"
+        stroke="url(#amber)" stroke-width="10"/>
+  <rect x="345" y="340" width="22" height="18" rx="3" fill="url(#amber)"/>
+  <path d="M348 340 v-9 a8 8 0 0 1 16 0 v9" fill="none" stroke="url(#amber)"
+        stroke-width="7" stroke-linecap="round"/>
+</svg>
