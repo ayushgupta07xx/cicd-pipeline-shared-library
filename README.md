@@ -62,7 +62,14 @@ warns about it explicitly. The kubeconfig is dereferenced by the shell
 
 ## Testing
 
-The library is verified end to end by two deliberately dissimilar services —
+```bash
+./test/run-tests.sh      # unit tests for DeployConfig — no Jenkins required
+```
+
+`DeployConfig` receives the script object by constructor, so a stub is enough to
+test parsing, validation, branch filtering and tag generation in isolation.
+
+Beyond that, the library is verified end to end by two deliberately dissimilar services —
 [sample-app](https://github.com/ayushgupta07xx/cicd-pipeline-sample-app)
 (Python/Flask, port 8080, two replicas) and
 [orders-api](https://github.com/ayushgupta07xx/cicd-pipeline-orders-api)
