@@ -24,7 +24,11 @@
 
 <br/>
 
-[![Watch the walkthrough](https://img.shields.io/badge/▶_Watch_the_9_min_walkthrough-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/8HLydMg_BCg)
+<video src="https://github.com/user-attachments/assets/19ee1809-603c-4cec-8eeb-75dbec476988" width="820" controls muted></video>
+
+<sub><b>60 seconds:</b> a broken deploy stalls at <code>0/1</code> Ready while the previous pods keep serving — then the pipeline diagnoses it and rolls back, unattended. Full 9-minute walkthrough below.</sub>
+
+[![Watch the full demo](https://img.shields.io/badge/▶_Watch_the_full_demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/8HLydMg_BCg)
 
 🐍 **[Sample App](https://github.com/ayushgupta07xx/cicd-pipeline-sample-app)** · 🟩 **[Orders API](https://github.com/ayushgupta07xx/cicd-pipeline-orders-api)** · 🏗 **[Platform](https://github.com/ayushgupta07xx/cicd-pipeline-platform)** · 📄 **[Docs](https://github.com/ayushgupta07xx/cicd-pipeline-platform/tree/main/docs)**
 
